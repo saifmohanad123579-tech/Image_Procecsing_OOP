@@ -80,3 +80,14 @@ void detectImageEdges(Image& image) {
         }
     }
 }
+void applyOldTVFilter(Image& image) {
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            if (j % 4 == 0) {
+                for (int k = 0; k < image.channels; k++) {
+                    image(i, j, k) = image(i, j, k) * 0.4;
+                }
+            }
+        }
+    }
+}
