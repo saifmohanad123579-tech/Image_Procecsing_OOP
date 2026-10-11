@@ -241,3 +241,31 @@ void applyPurpleNightWanoFilter(Image& image) {
         }
     }
 }
+void cropImage(Image& image) {
+    int x, y, newWidth, newHeight;
+    cout << "Enter starting X (left position): ";
+    cin >> x;
+    cout << "Enter starting Y (top position): ";
+    cin >> y;
+    cout << "Enter new Width: ";
+    cin >> newWidth;
+    cout << "Enter new Height: ";
+    cin >> newHeight;
+
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + newWidth > image.width) newWidth = image.width - x;
+    if (y + newHeight > image.height) newHeight = image.height - y;
+
+    Image croppedImage(newWidth, newHeight);
+
+    for (int i = 0; i < newWidth; i++) {
+        for (int j = 0; j < newHeight; j++) {
+            for (int k = 0; k < image.channels; k++) {
+                croppedImage(i, j, k) = image(x + i, y + j, k);
+            }
+        }
+    }
+
+    image = croppedImage;
+}
