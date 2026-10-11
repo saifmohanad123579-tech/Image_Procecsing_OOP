@@ -289,3 +289,13 @@ void applyDarkenLighten(Image& img, bool lighten) {
         }
     }
 }
+void applyInvert(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0; k < img.channels; ++k) {
+                int val = img.getPixel(i, j, k);
+                img.setPixel(i, j, k, 255 - val);
+            }
+        }
+    }
+}
