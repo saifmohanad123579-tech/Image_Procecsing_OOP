@@ -299,3 +299,55 @@ void applyInvert(Image& img) {
         }
     }
 }
+void applyFrame(Image& image)
+{
+    int choice;
+    cout << "Choose the Frame type : \n";
+    cout << "1 --> Simple Frame\n";
+    cout << "2 --> Fancy Frame\n";
+    cout << "Your choice is : ";
+    cin >> choice;
+    int thickness = 15;
+    if (choice == 1)
+    {
+        for (int i = 0; i < image.width; i++)
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                if (i < thickness || i >= image.width - thickness || j < 15 || j >= image.height - thickness)
+                {
+                    image(i, j, 0) = 0;
+                    image(i, j, 1) = 0;
+                    image(i, j, 2) = 255;
+                }
+            }
+        }
+    }
+    else if (choice == 2)
+    {
+        for (int i = 0; i < image.width; i++)
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                if (i < thickness || i >= image.width - thickness || j < 15 || j >= image.height - thickness)
+                {
+                    if ((i >= 5 && i <= 9) || (i >= image.width - 10 && i <= image.width - 6) || (j >= 5 && j <= 9) || (j >= image.height - 10 && j <= image.height - 6))
+                    {
+                        image(i, j, 0) = 255;
+                        image(i, j, 1) = 255;
+                        image(i, j, 2) = 255;
+                    }
+                    else
+                    {
+                        image(i, j, 0) = 0;
+                        image(i, j, 1) = 0;
+                        image(i, j, 2) = 255;
+                    }
+
+                }
+
+            }
+        }
+    }
+
+}
