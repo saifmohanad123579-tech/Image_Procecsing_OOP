@@ -97,6 +97,45 @@ void applySkew(Image& image) {
     }
     image = skewed;
 }
+void applyOilPainting(Image& image) {
+    const int radius = 4;
+    const int levels = 20;
+
+    Image result(image.width, image.height);
+
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            int count[levels] = { 0 };
+            int sumR[levels] = { 0 }, sumG[levels] = { 0 }, sumB[levels] = { 0 };
+
+            for (int dx = -radius; dx <= radius; dx++) {
+                for (int dy = -radius; dy <= radius; dy++) {
+                    int x = i + dx, y = j + dy;
+                    if (x < 0 || y < 0 || x >= image.width || y >= image.height) continue;
+
+                    int r = image(x, y, 0);
+                    int g = image(x, y, 1);
+                    int b = image(x, y, 2);
+
+                    int bin = ((r + g + b) / 3) * levels / 256;
+                    count[bin]++;
+                    sumR[bin] += r;
+                    sumG[bin] += g;
+                    sumB[bin] += b;
+                }
+            }
+
+            int best = 0;
+            for (int b = 1; b < levels; b++)
+                if (count[b] > count[best]) best = b;
+
+            result(i, j, 0) = sumR[best] / count[best];
+            result(i, j, 1) = sumG[best] / count[best];
+            result(i, j, 2) = sumB[best] / count[best];
+        }
+    }
+    image = result;
+}
 void applyBlackAndWhite(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
