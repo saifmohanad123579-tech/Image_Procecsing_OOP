@@ -365,3 +365,46 @@ void resizeImage(Image& image, Image& resizedImage) {
         }
     }
 }
+void blurImage(Image& image)
+{
+    Image tempImage(image.width, image.height);
+    int sum = 0;
+    int count = 0;
+    int radius = 4;
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            for (int k = 0; k < image.channels; k++)
+            {
+                sum = 0;
+                count = 0;
+                for (int deltaWidth = -radius; deltaWidth <= radius; deltaWidth++)
+                {
+                    for (int deltaHeight = -radius; deltaHeight <= radius; deltaHeight++)
+                    {
+                        int neighbourWidth = i + deltaWidth;
+                        int neighbourHeight = j + deltaHeight;
+                        if (neighbourWidth >= 0 && neighbourWidth < image.width && neighbourHeight >= 0 && neighbourHeight < image.height)
+                        {
+                            sum += image(neighbourWidth, neighbourHeight, k);
+                            count++;
+                        }
+                    }
+                }
+                tempImage(i, j, k) = sum / count;
+            }
+        }
+    }
+
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            for (int k = 0; k < image.channels; k++)
+            {
+                image(i, j, k) = tempImage(i, j, k);
+            }
+        }
+    }
+}
