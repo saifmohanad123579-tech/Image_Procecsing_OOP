@@ -30,6 +30,33 @@ Image applyFlip(const Image& img, int choice) {
     }
     return flippedImg;
 }
+void mergeImages(Image& image) {
+    string secondImagePath;
+    cout << "Enter the path of the second image to merge: ";
+    cin >> secondImagePath;
+
+    Image image2(secondImagePath);
+    Image resizedImage2(image.width, image.height);
+    float widthScale = (float)image2.width / image.width;
+    float heightScale = (float)image2.height / image.height;
+
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            int origI = i * widthScale;
+            int origJ = j * heightScale;
+            for (int k = 0; k < image.channels; k++) {
+                resizedImage2(i, j, k) = image2(origI, origJ, k);
+            }
+        }
+    }
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            for (int k = 0; k < image.channels; k++) {
+                image(i, j, k) = (image(i, j, k) + resizedImage2(i, j, k)) / 2;
+            }
+        }
+    }
+}
 
 void applyBlackAndWhite(Image& img) {
     for (int i = 0; i < img.width; ++i) {
