@@ -53,3 +53,30 @@ Image rotateImage(const Image& img, int angle) {
 
     return rotatedImg;
 }
+void detectImageEdges(Image& image) {
+    Image grayImage(image.width, image.height);
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            int avg = (image(i, j, 0) + image(i, j, 1) + image(i, j, 2)) / 3;
+            for (int k = 0; k < image.channels; k++) {
+                grayImage(i, j, k) = avg;
+            }
+        }
+    }
+    int threshold = 30;
+    for (int i = 0; i < image.width - 1; i++) {
+        for (int j = 0; j < image.height - 1; j++) {
+            int diffX = grayImage(i, j, 0) - grayImage(i + 1, j, 0);
+            if (diffX < 0) diffX = -diffX;
+
+            int diffY = grayImage(i, j, 0) - grayImage(i, j + 1, 0);
+            if (diffY < 0) diffY = -diffY;
+
+            int edgeVal = (diffX + diffY > threshold) ? 0 : 255;
+
+            for (int k = 0; k < image.channels; k++) {
+                image(i, j, k) = edgeVal;
+            }
+        }
+    }
+}
