@@ -269,3 +269,23 @@ void cropImage(Image& image) {
 
     image = croppedImage;
 }
+void applyDarkenLighten(Image& img, bool lighten) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0; k < img.channels; ++k) {
+                int val = img.getPixel(i, j, k);
+                if (lighten) {
+                    val = val + (255 - val) * 0.5;
+                }
+                else {
+                    val = val * 0.5;
+                }
+
+                if (val > 255) val = 255;
+                if (val < 0) val = 0;
+
+                img.setPixel(i, j, k, val);
+            }
+        }
+    }
+}
