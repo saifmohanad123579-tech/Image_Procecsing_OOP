@@ -57,6 +57,19 @@ void mergeImages(Image& image) {
         }
     }
 }
+void applyWanoSunlightFilter(Image& image) {
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            int r = image(i, j, 0) + 35;
+            int g = image(i, j, 1) + 15;
+            int b = image(i, j, 2) - 20;
+
+            image(i, j, 0) = (r > 255) ? 255 : ((r < 0) ? 0 : r);
+            image(i, j, 1) = (g > 255) ? 255 : ((g < 0) ? 0 : g);
+            image(i, j, 2) = (b > 255) ? 255 : ((b < 0) ? 0 : b);
+        }
+    }
+}
 
 void applyBlackAndWhite(Image& img) {
     for (int i = 0; i < img.width; ++i) {
