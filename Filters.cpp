@@ -70,7 +70,33 @@ void applyWanoSunlightFilter(Image& image) {
         }
     }
 }
+void applySkew(Image& image) {
+    double angle;
+    cout << "Enter skew angle in degrees (1-80): ";
+    cin >> angle;
+    if (angle < 1) angle = 1;
+    if (angle > 80) angle = 80;
 
+    double tanA = tan(angle * 3.14159265358979 / 180.0);
+    int extra = (int)((image.height - 1) * tanA);
+
+    Image skewed(image.width + extra, image.height);
+
+    for (int i = 0; i < skewed.width; i++)
+        for (int j = 0; j < skewed.height; j++)
+            for (int k = 0; k < 3; k++)
+                skewed(i, j, k) = 255;
+
+    for (int j = 0; j < image.height; j++) {
+        int offset = (int)((image.height - 1 - j) * tanA);
+        for (int i = 0; i < image.width; i++) {
+            for (int k = 0; k < 3; k++) {
+                skewed(i + offset, j, k) = image(i, j, k);
+            }
+        }
+    }
+    image = skewed;
+}
 void applyBlackAndWhite(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
