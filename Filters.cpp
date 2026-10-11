@@ -14,3 +14,42 @@ void applyBlackAndWhite(Image& img) {
         }
     }
 }
+Image rotateImage(const Image& img, int angle) {
+    Image rotatedImg;
+
+    if (angle == 90) {
+        rotatedImg = Image(img.height, img.width);
+        for (int i = 0; i < img.width; ++i) {
+            for (int j = 0; j < img.height; ++j) {
+                for (int k = 0; k < img.channels; ++k) {
+                    rotatedImg.setPixel(img.height - 1 - j, i, k, img.getPixel(i, j, k));
+                }
+            }
+        }
+    }
+    else if (angle == 180) {
+        rotatedImg = Image(img.width, img.height);
+        for (int i = 0; i < img.width; ++i) {
+            for (int j = 0; j < img.height; ++j) {
+                for (int k = 0; k < img.channels; ++k) {
+                    rotatedImg.setPixel(img.width - 1 - i, img.height - 1 - j, k, img.getPixel(i, j, k));
+                }
+            }
+        }
+    }
+    else if (angle == 270) {
+        rotatedImg = Image(img.height, img.width);
+        for (int i = 0; i < img.width; ++i) {
+            for (int j = 0; j < img.height; ++j) {
+                for (int k = 0; k < img.channels; ++k) {
+                    rotatedImg.setPixel(j, img.width - 1 - i, k, img.getPixel(i, j, k));
+                }
+            }
+        }
+    }
+    else {
+        rotatedImg = img;
+    }
+
+    return rotatedImg;
+}
