@@ -1,3 +1,19 @@
+void applyGrayscale(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            int r = img.getPixel(i, j, 0);
+            int g = img.getPixel(i, j, 1);
+            int b = img.getPixel(i, j, 2);
+
+            int gray = (r + g + b) / 3;
+
+            img.setPixel(i, j, 0, gray);
+            img.setPixel(i, j, 1, gray);
+            img.setPixel(i, j, 2, gray);
+        }
+    }
+}
+
 void applyBlackAndWhite(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
