@@ -351,3 +351,17 @@ void applyFrame(Image& image)
     }
 
 }
+void resizeImage(Image& image, Image& resizedImage) {
+    double widthScale = double(image.width) / resizedImage.width;
+    double heightScale = double(image.height) / resizedImage.height;
+
+    for (int i = 0; i < resizedImage.width; i++) {
+        for (int j = 0; j < resizedImage.height; j++) {
+            int width = i * widthScale;
+            int height = j * heightScale;
+            for (int k = 0; k < resizedImage.channels; k++) {
+                resizedImage(i, j, k) = image(width, height, k);
+            }
+        }
+    }
+}
