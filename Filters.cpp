@@ -229,3 +229,15 @@ void applyOldTVFilter(Image& image) {
         }
     }
 }
+void applyPurpleNightWanoFilter(Image& image) {
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height; j++) {
+            int r = image(i, j, 0) + 30;
+            int g = image(i, j, 1) * 0.6;
+            int b = image(i, j, 2) + 50;
+            image(i, j, 0) = (r > 255) ? 255 : r;
+            image(i, j, 1) = (g < 0) ? 0 : g;
+            image(i, j, 2) = (b > 255) ? 255 : b;
+        }
+    }
+}
