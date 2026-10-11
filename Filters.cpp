@@ -13,6 +13,23 @@ void applyGrayscale(Image& img) {
         }
     }
 }
+Image applyFlip(const Image& img, int choice) {
+    Image flippedImg(img.width, img.height);
+
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0; k < img.channels; ++k) {
+                if (choice == 1) {
+                    flippedImg.setPixel(img.width - 1 - i, j, k, img.getPixel(i, j, k));
+                }
+                else if (choice == 2) {
+                    flippedImg.setPixel(i, img.height - 1 - j, k, img.getPixel(i, j, k));
+                }
+            }
+        }
+    }
+    return flippedImg;
+}
 
 void applyBlackAndWhite(Image& img) {
     for (int i = 0; i < img.width; ++i) {
